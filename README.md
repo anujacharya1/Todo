@@ -28,4 +28,4 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Took some time to setup the focusing of the text and the list view was showing from the bottom up instead of top bottom
+I have to spent some time on setting up showing from the bottom up instead of top bottom. I have to restart the design in the sequence in the layout in android studio to get out of it.
