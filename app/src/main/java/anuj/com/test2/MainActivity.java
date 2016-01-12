@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MainActivity.this, EditItemActivity.class);
-                i.putExtra("text", todoItems.get(position).toString());
                 i.putExtra("id", todoItems.get(position).getId().intValue());
                 i.putExtra("position", position);
+                i.putExtra("todo", todoItems.get(position));
                 startActivityForResult(i, REQUEST_CODE);
             }
         });
@@ -128,7 +128,11 @@ public class MainActivity extends AppCompatActivity {
             String newText = data.getExtras().getString("newText");
             int position = data.getExtras().getInt("position", 0);
             int id =  data.getExtras().getInt("id", 0);
-            Todo todo = todoDbHelper.updateTodo(newText, id);
+
+            String newPriority =  data.getExtras().getString("newPriority", "");
+            String newDate =  data.getExtras().getString("newDate", "");
+
+            Todo todo = todoDbHelper.updateTodo(newText, newPriority, newDate,  id);
             todoItems.set(position, todo);
             toDoAdapter.notifyDataSetChanged();
         }

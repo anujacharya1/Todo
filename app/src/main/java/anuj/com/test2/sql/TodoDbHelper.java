@@ -23,9 +23,11 @@ public class TodoDbHelper{
         item.delete();
     }
 
-    public Todo updateTodo(String value, int id){
+    public Todo updateTodo(String value, String priority, String date, int id){
         Todo item = Todo.load(Todo.class, id);
         item.setValue(value);
+        item.setPriority(priority);
+        item.setDate(date);
         item.save();
         return item;
     }

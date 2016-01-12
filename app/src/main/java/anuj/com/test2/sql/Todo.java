@@ -4,12 +4,14 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.io.Serializable;
+
 /**
 * Created by anujacharya on 1/10/16.
 */
 
 @Table(name = "Todo")
-public class Todo extends Model {
+public class Todo extends Model implements Serializable {
 
     @Column(name = "value")
     public String value;

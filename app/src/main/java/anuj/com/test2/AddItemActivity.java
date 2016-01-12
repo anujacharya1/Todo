@@ -64,7 +64,6 @@ public class AddItemActivity extends ActionBarActivity implements DatePickerDial
                 }
             }
         });
-//        Toast.makeText(this, status,  Toast.LENGTH_LONG).show();
 
 
     }
@@ -78,22 +77,6 @@ public class AddItemActivity extends ActionBarActivity implements DatePickerDial
         getMenuInflater().inflate(R.menu.menu_edit_item, menu);
         return true;
     }
-
-//    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
-//        @Override
-//        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-//            // TODO Auto-generated method stub
-//            // arg1 = year
-//            // arg2 = month
-//            // arg3 = day
-//            showDate(arg1, arg2+1, arg3);
-//        }
-//    };
-
-//    private void showDate(int year, int month, int day) {
-//        showTextNotification((new StringBuilder().append(day).append("/").append(month).append("/").append(year)).toString());
-//    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

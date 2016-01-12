@@ -1,34 +1,84 @@
 package anuj.com.test2;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import anuj.com.test2.sql.Todo;
 
 
-public class EditItemActivity extends ActionBarActivity {
+public class EditItemActivity extends ActionBarActivity implements DatePickerDialog.OnDateSetListener{
 
     EditText et;
     private int position;
     private int id;
+
+    private String date;
+    private String priority;
+    Switch as_switch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        String text = getIntent().getStringExtra("text");
+        Todo todo = (Todo)getIntent().getExtras().getSerializable("todo");
+        String text = todo.getValue();
+        priority = todo.getPriority();
+        date = todo.getDate();
+        ((TextView) findViewById(R.id.dateText)).setText(date);
+
+
+        DialogFragment newFragment = new DatePickerFragmentForEdit();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+
         position = getIntent().getIntExtra("position", 0);
         id = getIntent().getIntExtra("id", 0);
 
-        et = (EditText) findViewById(R.id.editTextNew);
+        et = (EditText) findViewById(R.id.as_name);
         et.setText(text);
         et.setSelection(text.length());
+
+
+        //priority
+        as_switch = (Switch) findViewById(R.id.as_switch);
+
+
+        if(priority.equals("LOW")){
+            as_switch.setChecked(false);
+        }
+        else{
+            as_switch.setChecked(true);
+        }
+        //attach a listener to check for changes in state
+        as_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if(isChecked){
+                    priority = "HIGH";
+                }
+            }
+        });
 
         //setting up the focus
         et.requestFocus();
@@ -69,9 +119,26 @@ public class EditItemActivity extends ActionBarActivity {
         data.putExtra("newText", newText);
         data.putExtra("position", position);
         data.putExtra("id", id);
+        data.putExtra("newPriority", priority);
+        data.putExtra("newDate", date);
 
         // Activity finished ok, return the data
         setResult(RESULT_OK, data); // set result code and bundle data for response
         finish(); // closes the activity, pass data to parent
+    }
+
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        SimpleDateFormat dd = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date dateAndTime = calendar.getTime();
+        date = dd.format(dateAndTime);
+        //do some stuff for example write on log and update TextField on activity
+        ((TextView) findViewById(R.id.dateText)).setText(date);
     }
 }
