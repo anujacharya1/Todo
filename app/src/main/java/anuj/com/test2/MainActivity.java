@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         todoDbHelper = new TodoDbHelper();
         readItemsFromSql();
 
-        toDoAdapter = new ArrayAdapter<Todo>(this,android.R.layout.simple_list_item_1, todoItems);
+        toDoAdapter = new TodoAdapter(this, todoItems);
         lv = (ListView)findViewById(R.id.todoLv);
         lv.setAdapter(toDoAdapter);
 
