@@ -10,15 +10,46 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Todo")
 public class Todo extends Model {
+
     @Column(name = "value")
     public String value;
+
+    @Column(name = "date")
+    public String date;
+
+    @Column(name = "priority")
+    public String priority;
 
     public Todo(){
         super();
     }
 
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
-        return value;
+        return getValue()+"\t\t"+getDate()+"\t\t"+getPriority();
     }
 }

@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText et;
     private ListView lv;
     private final int REQUEST_CODE = 20;
+    private final int REQUEST_CODE_ADD = 21;
+
     private TodoDbHelper todoDbHelper;
     private ArrayList<Todo> todoItems;
 
@@ -107,11 +109,15 @@ public class MainActivity extends AppCompatActivity {
     // button click intent
     public void onSubmit(View view) {
 
-        et = (EditText) findViewById(R.id.editText);
-        String textEntered = et.getText().toString();
-        Todo todo = todoDbHelper.saveToTable(textEntered);
-        todoItems.add(todo);
-        et.setText("");
+        // redirect to the page and call the db helper and return the object from that intent
+        Intent launchAddItemActivity= new Intent(MainActivity.this,AddItemActivity.class);
+        startActivityForResult(launchAddItemActivity, REQUEST_CODE_ADD);
+
+//        et = (EditText) findViewById(R.id.editText);
+//        String textEntered = et.getText().toString();
+//        Todo todo = todoDbHelper.saveToTable(textEntered);
+//        todoItems.add(todo);
+//        et.setText("");
     }
 
     @Override
@@ -124,6 +130,25 @@ public class MainActivity extends AppCompatActivity {
             int id =  data.getExtras().getInt("id", 0);
             Todo todo = todoDbHelper.updateTodo(newText, id);
             todoItems.set(position, todo);
+            toDoAdapter.notifyDataSetChanged();
+        }
+
+
+        /*
+         data.putExtra("priority", priority);
+        data.putExtra("name", as_name.getText().toString());
+        data.putExtra("date", date);
+         */
+        // FOR CODE=21 adding the task
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_ADD) {
+            // Extract name value from result extras
+            String priority = data.getExtras().getString("priority");
+            String name = data.getExtras().getString("name");
+            String date = data.getExtras().getString("date");
+
+
+            Todo todo = todoDbHelper.saveToTable(name, priority, date);
+            todoItems.add(todo);
             toDoAdapter.notifyDataSetChanged();
         }
     }
